@@ -16,10 +16,10 @@ RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
 
 # Download CP2K
 # NOTE: this is a workaround for the GFW rather than clone from github
-# RUN tee ~/.gitconfig <<-'EOF'
-# [url "https://ghfast.top/https://github.com/"]
-#     insteadOf = https://github.com/
-# EOF
+RUN tee ~/.gitconfig <<-'EOF'
+[url "https://ghfast.top/https://github.com/"]
+    insteadOf = https://github.com/
+EOF
 COPY cp2k-v2025.1.zip /tmp/cp2k.zip
 RUN unzip /tmp/cp2k.zip -d /opt/ && mv /opt/cp2k-v2025.1 /opt/cp2k
 # RUN git clone --recursive -b support/v2025.1 https://github.com/cp2k/cp2k.git /opt/cp2k
@@ -27,7 +27,7 @@ RUN unzip /tmp/cp2k.zip -d /opt/ && mv /opt/cp2k-v2025.1 /opt/cp2k
 
 # Patch CP2K build script with dftd4-3.6.0 from github
 RUN tee /opt/cp2k/tools/toolchain/patch.sh <<-'EOF'
-wget -O /tmp/dftd4-3.6.0.tar.xz -nc https://github.com/dftd4/dftd4/releases/download/v3.6.0/dftd4-3.6.0-source.tar.xz
+wget -O /tmp/dftd4-3.6.0.tar.xz -nc https://ghfast.top/https://github.com/dftd4/dftd4/releases/download/v3.6.0/dftd4-3.6.0-source.tar.xz
 tar -xf /tmp/dftd4-3.6.0.tar.xz -C /tmp/ && \
 [ -d /tmp/dftd4-3.6.0 ] && echo "Patch: /tmp/dftd4-3.6.0 patch exists -- OK" && \
 rm -rf /opt/cp2k/tools/toolchain/build/dftd4-3.6.0 && \
